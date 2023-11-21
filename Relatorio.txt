@@ -1,6 +1,0 @@
-1-Criei a Class Pessoa e nela coloquei três atributos (nome,cpf e email). Criei tambem um contador que começa no 1. Fiz o construtor, todos os gets e sets e um ToSring.
-2-Criei um Package Utilitarios e nela uma Class Utils, onde criei um mêtodo de formatação de valores e mêtodo que transforma os valores de double para String.
-3- Na package Programa criei a Class Conta  e nela criei um mêtodo contador de conta e os atributos (numeroConta, pessoa e saldo = 0). Fiz o construtor da classe, seus Gets e Sets e o toString. 
-- Crie o mêtodo depositar onde coloquei uma condição, se o valor for maior que 0, ele pega o 	valor atual do saldo e soma mais o valor depositado.
-- Crie o mêtodo sacar onde coloquei uma condição, se o valor for maior que 0 e o saldo for maior que o valor, ele pegar o saldo atual e subtrair com o valor do saque.
-- Crie o mêtodo Transferir onde coloquei uma condição, se o valor for maior que 0 e o saldo for maior que o valor, ele pegar o saldo atual e subtrair com o valor do saque e o saldo conta para deposito sera somando a conta que foi transferida mais o valor dela.
