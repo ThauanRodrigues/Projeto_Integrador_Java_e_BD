@@ -1,83 +1,79 @@
 package Programa;
-
 import Utilitarios.Utils;
+import java.util.Date;
 
-public class Conta {
-// contador
-  private static int accountCounter = 1;
-// Atributos
-  private int numeroConta;
-  private Pessoa pessoa;
-  private Double saldo = 0.0;
+class Conta implements OperacoesBancarias {
+    private static int proximoNumeroConta = 1;
 
-// Construtor
-  public Conta(Pessoa pessoa) {
-      this.numeroConta = Conta.accountCounter;
-      this.pessoa = pessoa;
-      this.updateSaldo();
-      Conta.accountCounter += 1;
-  }
+    private int numeroConta;
+    private Pessoa cliente;
+    private double saldo;
+    private Date dataCriacaoConta;
 
-// Gets e Sets
-  public int getNumeroConta() {
-      return numeroConta;
-  }
-  public Pessoa getClient() {
-      return pessoa;
-  }
-  public void setClient(Pessoa pessoa) {
-      this.pessoa = pessoa;
-  }
-  public Double getSaldo() {
-      return saldo;
-  }
-  public void setSaldo(Double saldo) {
-      this.saldo = saldo;
-  }
+    // Construtor
+    public Conta(Pessoa cliente) {
+        this.numeroConta = proximoNumeroConta++;
+        this.cliente = cliente;
+        this.saldo = 0.0;
+        this.dataCriacaoConta = new Date();
+    }
 
-  private void updateSaldo() {
-      this.saldo = this.getSaldo();
-  }
-// ToString
-  public String toString() {
+    // Getters
+    public int getNumeroConta() {
+        return numeroConta;
+    }
 
-      return "\nBank account: " + this.getNumeroConta() +
-              "\nCliente: " + this.pessoa.getName() +
-              "\nCPF: " + this.pessoa.getCpf() +
-              "\nEmail: " + this.pessoa.getEmail() +
+    public Pessoa getCliente() {
+        return cliente;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+    public Date getAccountCreationDate() {
+        return dataCriacaoConta;
+    }
+    
+    @Override
+    public String toString() {
+        return "\nNúmero da Conta: " + this.getNumeroConta() +
+              "\nCliente: " + this.cliente.getName() +
+              "\nCPF: " + this.cliente.getCpf() +
+              "\nEmail: " + this.cliente.getEmail() +
               "\nSaldo: " + Utils.doubleToString(this.getSaldo()) +
+              "\nData de criação de Conta: " + Utils.dateToString(this.getAccountCreationDate()) +
               "\n" ;
-  }
-// Mêtodo depositar
-  public void depositar(Double valor) {
-      if(valor > 0) {
-          setSaldo(getSaldo() + valor);
-          //this.saldo = this.getSaldo() + valor;
-          System.out.println("Seu depósito foi realizado com sucesso!");
-      }else {
-          System.out.println("Não foi possível realizar o depósito!");
-      }
-  }
-  // Mêtodo sacar
-  public void sacar(Double valor) {
-      if(valor > 0 && this.getSaldo() >= valor) {
-          setSaldo(getSaldo() - valor);
-          System.out.println("Saque realizado com sucesso!");
-      }else {
-          System.out.println("Não foi possível realizar o saque!");
-      }
-  }
-  // Mêtodo transferir
-  public void transferir(Conta contaParaDeposito, Double valor) {
-      if(valor > 0 && this.getSaldo() >= valor) {
-          setSaldo(getSaldo() - valor);
-          //this.saldo = this.getSaldo() - valor;
-          contaParaDeposito.saldo = contaParaDeposito.getSaldo() + valor;
-          System.out.println("Transferência realizada com sucesso!");
-      }else {
-          System.out.println("Não foi possível realizar a tranferência");
-      }
+    }
 
-  }
+    // Implementação dos métodos da interface
+    @Override
+    public void depositar(double valor) {
+        if (valor > 0) {
+            saldo += valor;
+            System.out.println("Depósito de R$" + valor + " realizado com sucesso. \nNovo saldo: R$" + Utils.doubleToString(this.getSaldo()));
+        } else {
+            System.out.println("Valor de depósito inválido.");
+        }
+    }
 
+    @Override
+    public void sacar(double valor) {
+        if (valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            System.out.println("Saque de R$" + valor + " realizado com sucesso. Novo saldo: R$" + saldo);
+        } else {
+            System.out.println("Valor de saque inválido ou saldo insuficiente.");
+        }
+    }
+
+    @Override
+    public void transferir(Conta destino, double valor) {
+        if (valor > 0 && valor <= saldo) {
+            saldo -= valor;
+            destino.depositar(valor);
+            System.out.println("Transferência de R$" + valor + " para a conta " + destino.getNumeroConta() + " realizada com sucesso.");
+        } else {
+            System.out.println("Valor de transferência inválido ou saldo insuficiente.");
+        }
+    }
 }

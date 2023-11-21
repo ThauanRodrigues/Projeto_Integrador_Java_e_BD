@@ -92,12 +92,12 @@ public class AgenciaBancaria {
     int numeroConta = sc.nextInt();
     Conta conta = encontrarConta(numeroConta);
 
-    if(conta != null) {
+    if (conta != null) {
         System.out.println("Qual valor deseja depositar? ");
         Double valorDeposito = sc.nextDouble();
 
-        conta.depositar(valorDeposito);
-    }else {
+        ((OperacoesBancarias) conta).depositar(valorDeposito);
+    } else {
         System.out.println("--- Conta não encontrada ---");
     }
     operacoes();
@@ -109,17 +109,16 @@ public class AgenciaBancaria {
 
       Conta conta = encontrarConta(numeroConta);
 
-      if(conta != null) {
+      if (conta != null) {
           System.out.println("Qual valor deseja sacar? ");
           Double valorSaque = sc.nextDouble();
 
-          conta.sacar(valorSaque);
-      }else {
+          ((OperacoesBancarias) conta).sacar(valorSaque);
+      } else {
           System.out.println("--- Conta não encontrada ---");
       }
 
       operacoes();
-
   }
     // Mêtodo transferir
     public static void transferir(){
