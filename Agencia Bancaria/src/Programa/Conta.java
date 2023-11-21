@@ -33,17 +33,20 @@ class Conta implements OperacoesBancarias {
     public Date getAccountCreationDate() {
         return dataCriacaoConta;
     }
-    
+    //ToString
     @Override
     public String toString() {
         return "\nNúmero da Conta: " + this.getNumeroConta() +
-              "\nCliente: " + this.cliente.getName() +
-              "\nCPF: " + this.cliente.getCpf() +
-              "\nEmail: " + this.cliente.getEmail() +
-              "\nSaldo: " + Utils.doubleToString(this.getSaldo()) +
-              "\nData de criação de Conta: " + Utils.dateToString(this.getAccountCreationDate()) +
-              "\n" ;
+                "\nTipo de conta: " + this.cliente.getTipoPessoa() +
+                "\nCliente/Empresa: " + this.cliente.getName() +
+                (this.cliente instanceof PessoaFisica ? "\nCPF: " + ((PessoaFisica) this.cliente).getCpf() : "") +
+                (this.cliente instanceof PessoaJuridica ? "\nCNPJ: " + ((PessoaJuridica) this.cliente).getCnpj() : "") +
+                "\nEmail: " + this.cliente.getEmail() +
+                "\nSaldo: " + Utils.doubleToString(this.getSaldo()) +
+                "\nData de criação de Conta: " + Utils.dateToString(this.getAccountCreationDate()) +
+                "\n";
     }
+    
 
     // Implementação dos métodos da interface
     @Override
@@ -60,7 +63,7 @@ class Conta implements OperacoesBancarias {
     public void sacar(double valor) {
         if (valor > 0 && valor <= saldo) {
             saldo -= valor;
-            System.out.println("Saque de R$" + valor + " realizado com sucesso. Novo saldo: R$" + saldo);
+            System.out.println("Saque de R$" + valor + " realizado com sucesso.\nNovo saldo: R$" + Utils.doubleToString(this.getSaldo()));
         } else {
             System.out.println("Valor de saque inválido ou saldo insuficiente.");
         }
